@@ -6,7 +6,7 @@ import urllib
 import json
 import sys
 
-api = 'http://api.lrsoft.id/instagram/v1/user'
+api = 'https://api.lrsoft.id/instagram/v1/user'
 ig_file = '/Users/zaf/Sites/github/elektro08-web/IG_ACCOUNTS'
 namet_file_dir = '/Users/zaf/Sites/github/elektro08-web/_source/_namets/'
 uri_namet_img_dir = '/assets/img/namets/'
