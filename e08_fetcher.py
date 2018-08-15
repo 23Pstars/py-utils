@@ -19,11 +19,10 @@ accounts = [i.strip() for i in contents if i[0] == '@']
 
 for _user in accounts:
     _url = api + '?user=' + _user[1:]
-    _response = json.loads(urllib.urlopen(_url).read())
-    _namet = _response['user']
+    _namet = json.loads(urllib.urlopen(_url).read())[0]
 
     _nick = _namet['username']
-    _ig_profile_pic = _namet['profile_pic_url_hd']
+    _ig_profile_pic = _namet['profile_picture']
     _profile_pic = _nick + '.' + _ig_profile_pic.rsplit('.', 1)[1]
 
     urllib.urlretrieve(_ig_profile_pic, abs_namet_img_dir + _profile_pic)
@@ -36,7 +35,7 @@ for _user in accounts:
     print 'name: ' + _namet['full_name']
     print 'photo: ' + uri_namet_img_dir + _profile_pic
 
-    if _namet['external_url'] is not None:
-        print 'web: ' + _namet['external_url']
+    if _namet['url'] is not None:
+        print 'web: ' + _namet['url']
 
     print '---'
