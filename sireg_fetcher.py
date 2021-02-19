@@ -3,8 +3,8 @@
 import os.path
 import urllib
 
-src = '/Users/zaf/Sites/unram/sireg/_sql/photos/foto_pascasarjana.csv'
-dst = '/Users/zaf/Sites/unram/sireg/_sql/photos/pascasarjana/'
+src = '/home/zaf/Downloads/uangpangkal2020/m2.csv'
+dst = '/home/zaf/Downloads/uangpangkal2020/'
 
 with open(src) as _content:
     contents = _content.readlines()
