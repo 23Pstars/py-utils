@@ -6,7 +6,7 @@ import urllib
 import json
 import sys
 
-api = 'https://api.lrsoft.id/instagram/v1/user'
+api = 'http://api.lrsoft.local/instagram/v1/user'
 ig_file = '/Users/zaf/Sites/github/elektro08-web/IG_ACCOUNTS'
 namet_file_dir = '/Users/zaf/Sites/github/elektro08-web/_source/_namets/'
 uri_namet_img_dir = '/assets/img/namets/'
@@ -19,11 +19,16 @@ accounts = [i.strip() for i in contents if i[0] == '@']
 
 for _user in accounts:
     _url = api + '?user=' + _user[1:]
-    _namet = json.loads(urllib.urlopen(_url).read())[0]
+    _namet = json.loads(urllib.urlopen(_url).read())
 
+    if not _namet:
+        continue
+
+    _namet = _namet[0]
     _nick = _namet['username']
     _ig_profile_pic = _namet['profile_picture']
-    _profile_pic = _nick + '.' + _ig_profile_pic.rsplit('.', 1)[1]
+    # _profile_pic = _nick + '.' + _ig_profile_pic.rsplit('.', 1)[1]
+    _profile_pic = _nick + '.jpeg'
 
     urllib.urlretrieve(_ig_profile_pic, abs_namet_img_dir + _profile_pic)
 
@@ -32,7 +37,7 @@ for _user in accounts:
 
     print '---'
     print 'nick: ' + _namet['username']
-    print 'name: ' + _namet['full_name']
+    print 'name: ' + _namet['full_name'].encode('utf-8').strip()
     print 'photo: ' + uri_namet_img_dir + _profile_pic
 
     if _namet['url'] is not None:

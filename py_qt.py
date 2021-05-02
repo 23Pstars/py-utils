@@ -10,7 +10,7 @@ class Ui(QtWidgets.QMainWindow):
         self.show()
 
     def _change_text(self):
-        self.labelHello.setText('Change the World!')
+        self.labelHello.setText('Change the World !')
 
 
 app = QtWidgets.QApplication(sys.argv)
