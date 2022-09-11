@@ -1,19 +1,24 @@
 #!/usr/bin/python
 
 import os.path
+from sqlite3 import Row
 import urllib.request
 
 # src = 'O:\\My Drive\\PUSTIK\\Audit\\2022\\14\\Pembayaran_2022_Pil1_Pendidikan_Dokter.csv'
 # src = 'O:\\My Drive\\PUSTIK\\Audit\\2022\\14\\Pembayaran_2022_Pil2_Pendidikan_Dokter.csv'
 # src = 'O:\\My Drive\\PUSTIK\\Audit\\2022\\14\\Pembayaran_2022_Pil1_Farmasi.csv'
-src = 'O:\\My Drive\\PUSTIK\\Audit\\2022\\14\\Pembayaran_2022_Pil2_Farmasi.csv'
-dst = 'O:\\My Drive\\PUSTIK\\Audit\\2022\\14\\docs\\'
+# src = 'O:\\My Drive\\PUSTIK\\Audit\\2022\\14\\Pembayaran_2022_Pil2_Farmasi.csv'
+# dst = 'O:\\My Drive\\PUSTIK\\Audit\\2022\\14\\pernyataan peserta\\'
+
+src = 'O:\\My Drive\\PUSTIK\\Audit\\2022\\14\\Peserta_Mandiri_2022_Lulus.csv'
+dst = 'O:\\My Drive\\PUSTIK\\Audit\\2022\\14\\peserta lulus\\'
 
 # p = '1'
-p = '2'
+# p = '2'
 
 # p_index = 12
-p_index = 16
+# p_index = 16
+p_index = 3
 
 with open(src) as _content:
     contents = _content.readlines()
@@ -24,7 +29,7 @@ _contents.pop(0)
 for _row in _contents:
     _row = _row.split(';')
 
-    __no_tes = _row[2]
+    __no_tes = _row[0]
     if __no_tes == '':
         continue
 
@@ -37,7 +42,8 @@ for _row in _contents:
     if len(___pil) <= 1:
         continue
 
-    __pil_dest = dst + __no_tes + '-p'+p+'.' + ___pil[-1]
+    # __pil_dest = dst + __no_tes + '-p'+p+'.' + ___pil[-1]
+    __pil_dest = dst + __no_tes + '.' + ___pil[-1]
     if os.path.exists(__pil_dest):
         continue
 
