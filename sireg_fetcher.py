@@ -1,10 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/python3.8
 
 import os.path
-import urllib
+import urllib.request
 
-src = '/home/zaf/Nextcloud/bank/bri/20221/foto/foto.csv'
-dst = '/home/zaf/Nextcloud/bank/bri/20221/foto/'
+src = '/home/zaf/Downloads/foto/snbt/foto.csv'
+dst = '/home/zaf/Downloads/foto/snbt/'
 
 with open(src) as _content:
     contents = _content.readlines()
@@ -19,6 +19,6 @@ for _user in photos:
         continue
     if __user[1] == '':
         continue
-    urllib.urlretrieve(__user[1], __dest)
+    urllib.request.urlretrieve(__user[1], __dest)
     print(__user[1])
     # print(dst + __user[0] + '.' + __photo[-1])
