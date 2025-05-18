@@ -1,5 +1,6 @@
 import pandas as pd
 from sqlalchemy import create_engine, text, VARCHAR, FLOAT, INTEGER
+import re
 
 # MySQL database connection parameters
 db_username = 'winkom'
@@ -9,6 +10,7 @@ db_port = '3306'  # Change if your MySQL server is running on a different port
 db_name = 'unram_sireg'
 
 # Table name in MySQL database
+# table_name = '_rapor2024_siswa'
 # table_name = '_rapor2024_nilai'
 table_name = '_rapor2024_nilai_tambahan'
 
@@ -21,15 +23,24 @@ csv_file = f'/Users/zaf/Downloads/snbp/rapor/{table_name}.csv'
 engine = create_engine(f'mysql+mysqlconnector://{db_username}:{db_password}@{db_host}:{db_port}/{db_name}')
 
 # Read a sample of the CSV file to infer column types
-df_sample = pd.read_csv(csv_file, nrows=5)
+df = pd.read_csv(csv_file, nrows=5)
 
-# Define column types for the table
-column_types = {
-    col: VARCHAR(length=255) if dtype == 'object' else (
-        FLOAT() if dtype in ['float64', 'int64'] else INTEGER()
-    )
-    for col, dtype in df_sample.dtypes.items()
-}
+# Function to replace non-alphanumeric characters in column names with underscores
+def clean_column_name(col):
+    return re.sub(r'\W+', '_', col)
+
+# Clean column names
+df.columns = [clean_column_name(col) for col in df.columns]
+
+# Infer column data types
+# column_types = {
+#     col: VARCHAR(length=255) if dtype == 'object' else (
+#         FLOAT() if dtype == 'float64' else INTEGER()
+#     )
+#     for col, dtype in df.dtypes.items()
+# }
+column_names = df.columns.tolist()
+column_types = {col: VARCHAR(length=255) for col in column_names}
 
 # Create MySQL table with predefined column types
 with engine.connect() as connection:
@@ -41,6 +52,9 @@ print(f"Table '{table_name}' created successfully in MySQL database '{db_name}'.
 
 # Import data into MySQL table
 df = pd.read_csv(csv_file)
+
+# Clean column names
+df.columns = [clean_column_name(col) for col in df.columns]
 
 # Cast DataFrame columns to match MySQL table column types
 df = df.astype({col: dtype.python_type for col, dtype in column_types.items()})
